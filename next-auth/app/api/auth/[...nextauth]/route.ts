@@ -27,7 +27,16 @@ const handler = NextAuth({
             clientSecret: "ahfaf"
           })
     ],
-    secret:process.env.NEXTAUTH_SECRET
+    secret:process.env.NEXTAUTH_SECRET,
+    callbacks:{
+      jwt:({token,user})=>{
+        token.userId = token.sub;
+        return token;
+      },
+      session:({token,user}:any)=>{
+        return token
+      }
+    }
 });
 
 export { handler as POST, handler as GET}
